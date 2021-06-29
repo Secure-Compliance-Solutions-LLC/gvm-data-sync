@@ -3,23 +3,25 @@
 FEED_HOME="https://community.greenbone.net/t/about-greenbone-community-feed-gcf/1224"
 FEED_VENDOR="Greenbone Networks GmbH"
 
-write_feed_xml () {
+write_feed_xml() {
 
-  FEED_VERSION=`cat $FEED_DIR/timestamp`
+  FEED_VERSION=$(cat "${FEED_DIR}"/timestamp || echo "0")
 
-  mkdir -p $FEED_DIR
-  echo '<feed id="6315d194-4b6a-11e7-a570-28d24461215b">' > $FEED_DIR/feed.xml
-  echo "<type>$FEED_TYPE</type>" >> $FEED_DIR/feed.xml
-  echo "<name>$FEED_NAME</name>" >> $FEED_DIR/feed.xml
-  echo "<version>$FEED_VERSION</version>" >> $FEED_DIR/feed.xml
-  echo "<vendor>$FEED_VENDOR</vendor>" >> $FEED_DIR/feed.xml
-  echo "<home>$FEED_HOME</home>" >> $FEED_DIR/feed.xml
-  echo "<description>" >> $FEED_DIR/feed.xml
-  echo "This script synchronizes a $FEED_TYPE collection with the '$FEED_NAME'." >> $FEED_DIR/feed.xml
-  echo "The '$FEED_NAME' is provided by '$FEED_VENDOR'." >> $FEED_DIR/feed.xml
-  echo "Online information about this feed: '$FEED_HOME'." >> $FEED_DIR/feed.xml
-  echo "</description>" >> $FEED_DIR/feed.xml
-  echo "</feed>" >> $FEED_DIR/feed.xml
+  mkdir -p "${FEED_DIR}"
+  {
+    echo '<feed id="6315d194-4b6a-11e7-a570-28d24461215b">'
+    echo "<type>${FEED_TYPE}</type>"
+    echo "<name>${FEED_NAME}</name>"
+    echo "<version>${FEED_VERSION}</version>"
+    echo "<vendor>${FEED_VENDOR}</vendor>"
+    echo "<home>${FEED_HOME}</home>"
+    echo "<description>"
+    echo "This script synchronizes a ${FEED_TYPE} collection with the '${FEED_NAME}'."
+    echo "The '${FEED_NAME}' is provided by '${FEED_VENDOR}'."
+    echo "Online information about this feed: '${FEED_HOME}'."
+    echo "</description>"
+    echo "</feed>"
+  } >"${FEED_DIR}"/feed.xml
 }
 
 mkdir data
